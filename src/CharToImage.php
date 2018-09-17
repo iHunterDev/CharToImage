@@ -83,7 +83,7 @@ class CharToImage
      * [write 写入数据]
      * @param  [string]  $string [需要写入的字符串]
      * @param  mixed $path   [图片文件保存地址]
-     * @return [mixed]          [图片url或者直接返回图片]
+     * @return [mixed]          [图片地址或者直接返回图片]
      */
     public function write($string, $path=false)
     {
@@ -119,13 +119,20 @@ class CharToImage
             imagesetpixel($this->im, $this_x, $this_y, $color);
 
         }
-            if ($path) {
 
-            } else {
-                header("Content-Type: image/{$this->OutputObj->type}; charset=utf-8");
-                header("Content-Disposition: attachment; filename=" . md5(time()) . '.' . $this->OutputObj->type);
-                return $this->OutputObj->return($this->im);
-            }
+
+        if ($path) {
+            if (! is_writable(dirname($path))) throw new CharToImageException("没有权限写入文件");
+
+            $res = $this->OutputObj->write($this->im, $path);
+
+            if ($res) return $path;
+            throw new CharToImageException("文件保存失败,未知原因");
+        } else {
+            header("Content-Type: image/{$this->OutputObj->type}; charset=utf-8");
+            header("Content-Disposition: attachment; filename=" . md5(time()) . '.' . $this->OutputObj->type);
+            return $this->OutputObj->return($this->im);
+        }
     }
 
 
