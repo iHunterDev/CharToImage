@@ -19,7 +19,7 @@
 <form action="encode.php" method="post" enctype="multipart/form-data">
     <div class="padding-t-b">
         <label>图片文件:</label><br>
-        <input type="file" name="file">
+        <input type="file" name="file" accept="image/png">
     </div>
     <div class="padding-t-b">
         <label>需要写入的文字:</label><br>
@@ -33,7 +33,7 @@
 <form action="decode.php" method="post" enctype="multipart/form-data">
     <div class="padding-t-b">
         <label>图片文件:</label><br>
-        <input type="file" name="file">
+        <input type="file" name="file" accept="image/png">
     </div>
     <button>解码</button>
 </form>
